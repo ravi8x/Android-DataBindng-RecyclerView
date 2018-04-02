@@ -3,8 +3,6 @@ package info.androidhive.databinding;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    MyHandlers handlers;
+    MyClickHandlers handlers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +28,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        handlers = new MyHandlers(this);
+        handlers = new MyClickHandlers(this);
 
         User user = new User();
         user.setName("Ravi Tamada");
         user.setEmail("ravi8x@gmail.com");
         user.setProfileImage("https://avatars2.githubusercontent.com/u/497670?s=400&v=4");
         user.setWebsite("www.rxjava.wtf");
-        user.setNumberOfFollowers(100);
-        user.setNumberOfFollowing(200);
-        user.setNumberOfPosts(2400);
+        user.setNumberOfFollowers(3050890);
+        user.setNumberOfFollowing(150);
+        user.setNumberOfPosts(3400);
 
         binding.setUser(user);
         binding.content.setHandlers(handlers);
@@ -67,22 +65,34 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class MyHandlers {
+    public class MyClickHandlers {
 
         Context context;
 
-        public MyHandlers(Context context) {
+        public MyClickHandlers(Context context) {
             this.context = context;
         }
 
-
-        public void onButtonClick(View view) {
-            Toast.makeText(context, "Button is clicked!", Toast.LENGTH_SHORT).show();
+        public void onProfileFabClicked(View view) {
+            Toast.makeText(getApplicationContext(), "Profile FAB is clicked!", Toast.LENGTH_LONG).show();
         }
 
-        public boolean onButtonLongPressed(View view, String name) {
-            Toast.makeText(context, "Button is long pressed! " + name, Toast.LENGTH_SHORT).show();
+        public boolean onProfileImageLongPressed(View view) {
+            Toast.makeText(getApplicationContext(), "Profile image long pressed!", Toast.LENGTH_LONG).show();
             return false;
+        }
+
+
+        public void onFollowersClicked(View view) {
+            Toast.makeText(context, "Followers is clicked!", Toast.LENGTH_SHORT).show();
+        }
+
+        public void onFollowingClicked(View view) {
+            Toast.makeText(context, "Following is clicked!", Toast.LENGTH_SHORT).show();
+        }
+
+        public void onPostsClicked(View view) {
+            Toast.makeText(context, "Posts is clicked!", Toast.LENGTH_SHORT).show();
         }
     }
 }
