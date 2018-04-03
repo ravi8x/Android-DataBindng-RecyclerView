@@ -1,6 +1,6 @@
 package info.androidhive.databinding;
 
-public class ProfileBindingUtils {
+public class BindingUtils {
 
     // https://stackoverflow.com/questions/9769554/how-to-convert-number-into-k-thousands-m-million-and-b-billion-suffix-in-jsp
     public static String convertToSuffix(long count) {
