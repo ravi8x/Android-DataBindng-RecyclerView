@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.toolbar_profile);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         handlers = new MyClickHandlers(this);
 
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         user.setName("Ravi Tamada");
         user.setEmail("ravi8x@gmail.com");
         user.setProfileImage("https://avatars2.githubusercontent.com/u/497670?s=400&v=4");
-        user.setWebsite("www.rxjava.wtf");
+        user.setWebsite("www.androidhive.info");
         user.setNumberOfFollowers(3050890);
         user.setNumberOfFollowing(150);
         user.setNumberOfPosts(3400);
@@ -58,8 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = binding.content.recyclerView;
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, dpToPx(4), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setNestedScrollingEnabled(false);
         mAdapter = new PostsAdapter(postList);
         recyclerView.setAdapter(mAdapter);
 
@@ -68,9 +71,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void preparePosts() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 1; i < 10; i++) {
             Post post = new Post();
-            post.setImageUrl("https://instagram.fbpm1-1.fna.fbcdn.net/vp/26595d76ac9cf7d5a87f13febf4e7d97/5B753E1F/t51.2885-15/e35/26866951_335026793666205_6102243513582223360_n.jpg");
+            post.setImageUrl("https://api.androidhive.info/images/nature/" + i + ".jpg");
 
             postList.add(post);
         }

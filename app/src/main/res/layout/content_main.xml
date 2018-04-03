@@ -17,61 +17,81 @@
     <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         bind:layout_width="match_parent"
-        bind:layout_height="match_parent">
+        bind:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:focusableInTouchMode="true"
             android:orientation="vertical"
-            android:padding="@dimen/fab_margin"
             tools:context=".MainActivity"
             tools:showIn="@layout/activity_main">
 
-            <RelativeLayout
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_margin"
+                android:paddingTop="@dimen/activity_margin">
 
-                <ImageView
-                    android:id="@+id/profile_image"
+                <RelativeLayout
                     android:layout_width="100dp"
+                    android:layout_marginTop="30dp"
                     android:layout_height="100dp"
-                    android:layout_centerHorizontal="true"
-                    android:onLongClick="@{handlers::onProfileImageLongPressed}"
-                    bind:profileImage="@{user.profileImage}" />
+                    android:layout_gravity="center_horizontal">
 
-                <android.support.design.widget.FloatingActionButton
+                    <ImageView
+                        android:id="@+id/profile_image"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_centerHorizontal="true"
+                        android:onLongClick="@{handlers::onProfileImageLongPressed}"
+                        bind:profileImage="@{user.profileImage}" />
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:onClick="@{handlers::onProfileFabClicked}"
+                        android:src="@drawable/ic_add_white_24dp"
+
+                        app:fabCustomSize="30dp" />
+
+                </RelativeLayout>
+
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:onClick="@{handlers::onProfileFabClicked}"
-                    android:src="@android:drawable/ic_input_add"
-                    app:fabCustomSize="30dp" />
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+                    android:fontFamily="sans-serif"
+                    android:letterSpacing="0.1"
+                    android:text="@{user.name}"
+                    android:textColor="@android:color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
 
-            </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="sans-serif"
+                    android:letterSpacing="0.1"
+                    android:text="@{user.website}"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="13dp" />
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@{user.name}"
-                android:textSize="16dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@{user.website}" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fab_margin"
+                android:layout_marginBottom="@dimen/activity_margin"
                 android:orientation="horizontal"
                 android:weightSum="3">
 
@@ -86,12 +106,17 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{BindingUtils.convertToSuffix(user.numberOfPosts)}" />
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="@{BindingUtils.convertToSuffix(user.numberOfPosts)}"
+                        android:textColor="#333"
+                        android:textStyle="normal"
+                        android:textSize="24dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="posts" />
+                        android:textSize="10dp"
+                        android:text="POSTS" />
 
                 </LinearLayout>
 
@@ -106,12 +131,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#333"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="24dp"
                         android:text="@{BindingUtils.convertToSuffix(user.numberOfFollowers)}" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="followers" />
+                        android:textSize="10dp"
+                        android:text="FOLLOWERS" />
 
                 </LinearLayout>
 
@@ -126,12 +155,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#333"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="24dp"
                         android:text="@{BindingUtils.convertToSuffix(user.numberOfFollowing)}" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="following" />
+                        android:textSize="10dp"
+                        android:text="FOLLOWING" />
 
                 </LinearLayout>
             </LinearLayout>
