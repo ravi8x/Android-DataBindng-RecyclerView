@@ -1,40 +1,53 @@
 package info.androidhive.databinding.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
+import android.databinding.ObservableField;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-public class User {
+import info.androidhive.databinding.BR;
+
+public class User extends BaseObservable {
     String name;
     String email;
     String profileImage;
-    String website;
-    long numberOfPosts;
-    long numberOfFollowers;
-    long numberOfFollowing;
+    String about;
+
+
+    // profile meta fields are ObservableField, will update the UI
+    // whenever a new value is set
+    public ObservableField<Long> numberOfFollowers = new ObservableField<>();
+    public ObservableField<Long> numberOfPosts = new ObservableField<>();
+    public ObservableField<Long> numberOfFollowing = new ObservableField<>();
 
     public User() {
     }
 
+    @Bindable
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+        notifyPropertyChanged(BR.name);
     }
 
+    @Bindable
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+        notifyPropertyChanged(BR.email);
     }
 
-    @BindingAdapter({"bind:profileImage"})
+    @BindingAdapter({"profileImage"})
     public static void loadImage(ImageView view, String imageUrl) {
         Glide.with(view.getContext())
                 .load(imageUrl)
@@ -42,49 +55,38 @@ public class User {
                 .into(view);
 
         // If you consider Picasso, follow the below
-        /*Picasso.with(view.getContext())
-                .load(imageUrl)
-                .placeholder(R.drawable.placeholder)
-                .into(view);*/
+        // Picasso.with(view.getContext()).load(imageUrl).placeholder(R.drawable.placeholder).into(view);
     }
 
+    @Bindable
     public String getProfileImage() {
         return profileImage;
     }
 
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
+        notifyPropertyChanged(BR.profileImage);
     }
 
-    public String getWebsite() {
-        return website;
+    @Bindable
+    public String getAbout() {
+        return about;
     }
 
-    public void setWebsite(String website) {
-        this.website = website;
+    public void setAbout(String about) {
+        this.about = about;
+        notifyPropertyChanged(BR.about);
     }
 
-    public long getNumberOfPosts() {
-        return numberOfPosts;
-    }
-
-    public void setNumberOfPosts(long numberOfPosts) {
-        this.numberOfPosts = numberOfPosts;
-    }
-
-    public long getNumberOfFollowers() {
+    public ObservableField<Long> getNumberOfFollowers() {
         return numberOfFollowers;
     }
 
-    public void setNumberOfFollowers(long numberOfFollowers) {
-        this.numberOfFollowers = numberOfFollowers;
+    public ObservableField<Long> getNumberOfPosts() {
+        return numberOfPosts;
     }
 
-    public long getNumberOfFollowing() {
+    public ObservableField<Long> getNumberOfFollowing() {
         return numberOfFollowing;
-    }
-
-    public void setNumberOfFollowing(long numberOfFollowing) {
-        this.numberOfFollowing = numberOfFollowing;
     }
 }

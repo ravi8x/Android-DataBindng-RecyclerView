@@ -1,4 +1,4 @@
-package info.androidhive.databinding;
+package info.androidhive.databinding.view;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -7,100 +7,98 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import info.androidhive.databinding.R;
 import info.androidhive.databinding.databinding.ActivityMainBinding;
 import info.androidhive.databinding.model.Post;
 import info.androidhive.databinding.model.User;
+import info.androidhive.databinding.utils.GridSpacingItemDecoration;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PostsAdapter.PostsAdapterListener {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
-
-    MyClickHandlers handlers;
-
-    private List<Post> postList = new ArrayList<>();
+    private MyClickHandlers handlers;
     private PostsAdapter mAdapter;
     private RecyclerView recyclerView;
+    private ActivityMainBinding binding;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.toolbar_profile);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         handlers = new MyClickHandlers(this);
 
-        User user = new User();
-        user.setName("Ravi Tamada");
-        user.setEmail("ravi8x@gmail.com");
-        user.setProfileImage("https://avatars2.githubusercontent.com/u/497670?s=400&v=4");
-        user.setWebsite("www.androidhive.info");
-        user.setNumberOfFollowers(3050890);
-        user.setNumberOfFollowing(150);
-        user.setNumberOfPosts(3400);
+        initRecyclerView();
 
-        binding.setUser(user);
-        binding.content.setHandlers(handlers);
+        renderProfile();
+    }
 
+    /**
+     * Renders RecyclerView with Grid Images in 3 columns
+     */
+    private void initRecyclerView() {
         recyclerView = binding.content.recyclerView;
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, dpToPx(4), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(false);
-        mAdapter = new PostsAdapter(postList);
+        mAdapter = new PostsAdapter(getPosts(), this);
         recyclerView.setAdapter(mAdapter);
-
-
-        preparePosts();
     }
 
-    private void preparePosts() {
+    /**
+     * Renders user profile data
+     */
+    private void renderProfile() {
+        user = new User();
+        user.setName("David Attenborough");
+        user.setEmail("david@natgeo.com");
+        user.setProfileImage("https://api.androidhive.info/images/nature/david.jpg");
+        user.setAbout("Naturalist");
+
+        // ObservableField doesn't have setter method, instead will
+        // be called using set() method
+        user.numberOfPosts.set(3400L);
+        user.numberOfFollowers.set(3050890L);
+        user.numberOfFollowing.set(150L);
+
+
+        // display user
+        binding.setUser(user);
+
+        // assign click handlers
+        binding.content.setHandlers(handlers);
+    }
+
+    private ArrayList<Post> getPosts() {
+        ArrayList<Post> posts = new ArrayList<>();
         for (int i = 1; i < 10; i++) {
             Post post = new Post();
             post.setImageUrl("https://api.androidhive.info/images/nature/" + i + ".jpg");
 
-            postList.add(post);
+            posts.add(post);
         }
 
-        mAdapter.notifyDataSetChanged();
+        return posts;
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onPostClicked(Post post) {
+        Toast.makeText(getApplicationContext(), "Post clicked! " + post.getImageUrl(), Toast.LENGTH_SHORT).show();
     }
 
     public class MyClickHandlers {
@@ -111,8 +109,19 @@ public class MainActivity extends AppCompatActivity {
             this.context = context;
         }
 
+        /**
+         * Demonstrating updating bind data
+         * Profile name, number of posts and profile image
+         * will be updated on Fab click
+         */
         public void onProfileFabClicked(View view) {
-            Toast.makeText(getApplicationContext(), "Profile FAB is clicked!", Toast.LENGTH_LONG).show();
+            user.setName("Sir David Attenborough");
+            user.setProfileImage("https://api.androidhive.info/images/nature/david1.jpg");
+
+            // updating ObservableField
+            user.numberOfPosts.set(5500L);
+            user.numberOfFollowers.set(5050890L);
+            user.numberOfFollowing.set(180L);
         }
 
         public boolean onProfileImageLongPressed(View view) {

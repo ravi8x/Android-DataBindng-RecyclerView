@@ -2,4 +2,7 @@
     <string name="app_name">Data Binding</string>
     <string name="action_settings">Settings</string>
     <string name="toolbar_profile">Profile</string>
+    <string name="posts">POSTS</string>
+    <string name="followers">FOLLOWERS</string>
+    <string name="following">FOLLOWING</string>
 </resources>

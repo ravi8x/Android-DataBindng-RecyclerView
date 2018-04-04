@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide;
 public class Post {
     String imageUrl;
 
-    @BindingAdapter("bind:imageUrl")
+    @BindingAdapter("imageUrl")
     public static void loadImage(ImageView view, String imageUrl) {
         Glide.with(view.getContext())
                 .load(imageUrl)
