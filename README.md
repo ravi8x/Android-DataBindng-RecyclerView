@@ -1,6 +1,8 @@
 Android **DataBinding** basics and binding in **RecyclerView**.
 
-[Tutorial](https://www.androidhive.info/android-databinding-in-recyclerview-profile-screen/)
+[DataBinding Basics](https://www.androidhive.info/android-working-with-databinding/)
+
+[Profile Screen Tutorial](https://www.androidhive.info/android-databinding-in-recyclerview-profile-screen/)
 
 [Apk](http://download.androidhive.info/apk/databing-recyclerview.apk)
 
